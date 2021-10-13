@@ -1,21 +1,12 @@
 <template>
   <div id="app">
-    <main-layout></main-layout>
+    <router-view />
   </div>
 </template>
 
 <script>
-import MainLayout from "~/layouts/MainLayout";
-
 export default {
-  data() {
-    return {
-      message: "test"
-    }
-  },
-  components: {
-    'main-layout': MainLayout
-  }
+  name: 'App'
 }
 </script>
 
