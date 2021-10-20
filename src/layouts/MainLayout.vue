@@ -18,6 +18,10 @@
                         <i class="el-icon-setting"></i>
                         <span slot="title">Comments</span>
                     </el-menu-item>
+                    <el-menu-item index="/addresses">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">Addresses</span>
+                    </el-menu-item>
                 </el-menu>
             </el-col>
         </el-aside>

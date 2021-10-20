@@ -3,6 +3,7 @@ import MainLayout from '~/layouts/MainLayout'
 import User from '~/components/User'
 import Article from '~/components/Article'
 import Comment from '~/components/Comment'
+import Address from '~/components/Address'
 
 const routes = [
     {
@@ -17,6 +18,9 @@ const routes = [
         },{
             path: '/comments',
             component: Comment
+        },{
+            path: '/addresses',
+            component: Address
         }]
     }
 ]
