@@ -29,6 +29,8 @@
 
 <script>
 import axios from 'axios'
+import configJson from '../config/config.json'
+
 export default {
     name: 'Comment',
     data() {
@@ -44,7 +46,7 @@ export default {
         }
     },
     mounted() {
-        axios.get('/api/v1/comments')
+        axios.get(configJson.endpoint.comments + '/api/v1/comments')
             .then(this.listCommentsSuccess)
     }
 }

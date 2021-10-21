@@ -1,5 +1,6 @@
 {
     "endpoint": {
-        "users": "http://ec2-18-188-35-185.us-east-2.compute.amazonaws.com:8080"
+        "users": "http://ec2-18-188-35-185.us-east-2.compute.amazonaws.com:8080",
+        "comments": "http://ec2-18-188-35-185.us-east-2.compute.amazonaws.com:8081"
     }
 }
