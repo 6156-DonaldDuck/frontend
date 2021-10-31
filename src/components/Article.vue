@@ -44,7 +44,7 @@ export default {
     },
     methods: {
         listArticlesSuccess(res) {
-            console.log("successfully retrieved comments list")
+            console.log("successfully retrieved articles list")
             console.log(this.articles)
             this.articles = res.data
         }
