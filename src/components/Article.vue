@@ -1,5 +1,5 @@
 <template>
-    <div style="align-content: center">
+    <div>
         <el-card
             v-for="article in this.articles"
             :key="article.ID"

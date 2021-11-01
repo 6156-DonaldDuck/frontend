@@ -5,6 +5,7 @@ import Article from '~/components/Article'
 import ArticleDetail from '~/components/ArticleDetail'
 import Comment from '~/components/Comment'
 import Address from '~/components/Address'
+import Profile from '~/components/Profile'
 import GoogleLoginCallback from '~/components/GoogleLoginCallback'
 
 const routes = [
@@ -30,6 +31,9 @@ const routes = [
         },{
             path: '/addresses',
             component: Address
+        },{
+            path: '/profile',
+            component: Profile
         }]
     }
 ]

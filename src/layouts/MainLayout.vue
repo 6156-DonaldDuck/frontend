@@ -22,6 +22,10 @@
                         <i class="el-icon-document"></i>
                         <span slot="title">Addresses</span>
                     </el-menu-item>
+                    <el-menu-item index="/profile">
+                        <i class="el-icon-document"></i>
+                        <span slot="title">Google Profile</span>
+                    </el-menu-item>
                 </el-menu>
             </el-col>
         </el-aside>
@@ -30,7 +34,7 @@
                 <el-button @click="getGoogleLoginUrl">Login with Google</el-button>
             </el-header>
             <el-main>
-                <router-view></router-view>
+                <router-view @loginWithGoogle="this.loginWithGoogle"></router-view>
             </el-main>
             <el-footer>Footer</el-footer>
         </el-container>
@@ -50,32 +54,22 @@ export default {
         }
     },
     methods: {
-        getGoogleLoginUrl: function() {
-            axios.get("http://localhost:8080/api/v1/login/google/url")
-                .then(this.popGoogleLoginWindow)
-                .catch(function (error) {
-                    console.log(error)
-            })
-        },
-        popGoogleLoginWindow: function (res) {
-            let loginUrl = res.data;
+        loginWithGoogle() {
+            // open new pop up window
             let name = 'Login with Google';
-
             window.removeEventListener('message', this.receiveMessage);
-
             // window features
             const strWindowFeatures =
                 'toolbar=no, menubar=no, width=600, height=700, top=100, left=100';
-
             if (this.windowObjectReference === null || this.windowObjectReference.closed) {
                 /* if the pointer to the window object in memory does not exist
                  or if such pointer exists but the window was closed */
-                this.windowObjectReference = window.open(loginUrl, name, strWindowFeatures);
+                this.windowObjectReference = window.open('about:blank', name, strWindowFeatures);
             } else if (this.previousUrl !== url) {
                 /* if the resource to load is different,
                  then we load it in the already opened secondary window and then
                  we bring such window back on top/in front of its parent window. */
-                this.windowObjectReference = window.open(loginUrl, name, strWindowFeatures);
+                this.windowObjectReference = window.open('about:blank', name, strWindowFeatures);
                 this.windowObjectReference.focus();
             } else {
                 /* else the window reference must exist and the window
@@ -87,6 +81,19 @@ export default {
 
             // add the listener for receiving a message from the popup
             window.addEventListener('message', event => this.receiveMessage(event), false);
+
+            this.getGoogleLoginUrl()
+                .then(this.fillPopupWindowUrl)
+                .catch(function (error) {
+                    console.log(error)
+            })
+        },
+        getGoogleLoginUrl() {
+            return axios.get("http://localhost:8080/api/v1/login/google/url")
+        },
+        fillPopupWindowUrl(res) {
+            let loginUrl = res.data;
+            this.windowObjectReference.location.href = loginUrl
             // assign the previous URL
             this.previousUrl = loginUrl;
         },
@@ -106,14 +113,19 @@ export default {
         apiCallbackSuccess: function (res) {
             console.log('successully logged in, token=' + res.data)
             localStorage.setItem('access_token', res.data)
+            axios.interceptors.request.use(function (config) {
+                const token = res.data;
+                config.headers.Authorization =  token;
+
+                return config;
+            });
             // set access_token to cookies
-            this.$cookie.set('access_token', res.data)
+            // this.$cookie.set('access_token', res.data, {domain: 'localhost:8080'})
             this.isLoggedIn = true
             this.getGoogleUserProfile()
         },
         getGoogleUserProfile: function () {
-            let queryParam = encodeURIComponent('access_token') + '=' + encodeURIComponent(localStorage.getItem('access_token'))
-            axios.get('http://localhost:8080/api/v1/users/google/profile' + '?' + queryParam)
+            axios.get('http://localhost:8080/api/v1/users/google/profile')
                 .then(this.getGoogleUserProfileSuccess)
                 .catch(function (error) {
                     console.log(error)
