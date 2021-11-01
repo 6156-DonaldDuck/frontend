@@ -5,7 +5,7 @@
             :key="article.ID"
             shadow="hover"
             :body-style="{ padding: '0px' }"
-            style="margin-top: 13px; width: 500px;"
+            style="margin: 13px auto auto; width: 80%;"
             @click.native="goToArticleDetailPage(article.ID)">
             <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
             <div style="padding: 14px;">
@@ -19,7 +19,8 @@
         <el-pagination
             layout="prev, pager, next"
             :page-size="3"
-            :total="50">
+            :total="50"
+            style="margin-top: 20px">
         </el-pagination>
     </div>
 </template>
