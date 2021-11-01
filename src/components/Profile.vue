@@ -21,6 +21,17 @@ export default {
             previousUrl: ""
         }
     },
+    props: {
+        isLoggedIn: Boolean
+    },
+    watch: {
+        // watch the updates on isLoggedIn
+        isLoggedIn: function() {
+            if (this.isLoggedIn) {
+                this.getGoogleUserProfile()
+            }
+        }
+    },
     methods: {
         getGoogleUserProfile() {
             axios.get('http://localhost:8080/api/v1/users/google/profile')
@@ -40,7 +51,7 @@ export default {
                     title: 'Unauthorized',
                     message: "You're not logged in"
                 })
-                // this.getGoogleLoginUrl()
+                // login
                 this.$emit('loginWithGoogle')
             }
         }

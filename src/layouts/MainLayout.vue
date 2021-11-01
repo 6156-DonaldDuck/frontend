@@ -34,7 +34,7 @@
                 <el-button @click="getGoogleLoginUrl">Login with Google</el-button>
             </el-header>
             <el-main>
-                <router-view @loginWithGoogle="this.loginWithGoogle"></router-view>
+                <router-view @loginWithGoogle="this.loginWithGoogle" v-bind:isLoggedIn="this.isLoggedIn"></router-view>
             </el-main>
             <el-footer>Footer</el-footer>
         </el-container>
@@ -51,6 +51,13 @@ export default {
             previousUrl: null,
             isLoggedIn: false,
             userProfile: null,
+        }
+    },
+    watch: {
+        isLoggedIn: function(val) {
+            if (this.isLoggedIn) {
+                this.getGoogleUserProfile()
+            }
         }
     },
     methods: {
@@ -119,10 +126,7 @@ export default {
 
                 return config;
             });
-            // set access_token to cookies
-            // this.$cookie.set('access_token', res.data, {domain: 'localhost:8080'})
             this.isLoggedIn = true
-            this.getGoogleUserProfile()
         },
         getGoogleUserProfile: function () {
             axios.get('http://localhost:8080/api/v1/users/google/profile')
