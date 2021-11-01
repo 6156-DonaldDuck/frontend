@@ -106,6 +106,8 @@ export default {
         apiCallbackSuccess: function (res) {
             console.log('successully logged in, token=' + res.data)
             localStorage.setItem('access_token', res.data)
+            // set access_token to cookies
+            this.$cookie.set('access_token', res.data)
             this.isLoggedIn = true
             this.getGoogleUserProfile()
         },
@@ -149,7 +151,5 @@ export default {
         background-color: #E9EEF3;
         color: #333;
         text-align: center;
-        line-height: 160px;
-        height: 500px;
     }
 </style>

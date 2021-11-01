@@ -1,34 +1,26 @@
 <template>
-    <div>
-        <el-table
-            :data="articles"
-            style="width: 100%">
-            <el-table-column
-                    prop="ID"
-                    label="ID"
-                    width="50">
-            </el-table-column>
-            <el-table-column
-                    prop="author_id"
-                    label="Author ID"
-                    width="100">
-            </el-table-column>
-            <el-table-column
-                    prop="title"
-                    label="Title"
-                    width="100">
-            </el-table-column>
-            <el-table-column
-                    prop="content"
-                    label="Content"
-                    width="100">
-            </el-table-column>
-            <el-table-column
-                    prop="kind"
-                    label="Kind"
-                    width="100">
-            </el-table-column>
-        </el-table>
+    <div style="align-content: center">
+        <el-card
+            v-for="article in this.articles"
+            :key="article.ID"
+            shadow="hover"
+            :body-style="{ padding: '0px' }"
+            style="margin-top: 13px; width: 500px;"
+            @click.native="goToArticleDetailPage(article.ID)">
+            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+            <div style="padding: 14px;">
+                <span>{{ article.title }}</span>
+                <div class="bottom clearfix">
+                <time class="time">{{ article.CreatedAt }}</time>
+                <el-button type="text" class="button">Blabla</el-button>
+                </div>
+            </div>
+        </el-card>
+        <el-pagination
+            layout="prev, pager, next"
+            :page-size="3"
+            :total="50">
+        </el-pagination>
     </div>
 </template>
 <script>
@@ -47,11 +39,24 @@ export default {
             console.log("successfully retrieved articles list")
             console.log(this.articles)
             this.articles = res.data
+        },
+        goToArticleDetailPage(id) {
+            console.log('clicked on article ' + id)
+            this.$router.push('/articles/' + id)
         }
     },
     mounted() {
-        axios.get(configJson.endpoint.articles + '/api/v1/articles')
+        // axios.get(configJson.endpoint.articles + '/api/v1/articles')
+        //     .then(this.listArticlesSuccess)
+        axios.get('http://localhost:5000/api/v1/articles')
             .then(this.listArticlesSuccess)
     }
 }
 </script>
+
+<style scoped>
+    .image {
+        width: 100%;
+        display: block;
+    }
+</style>
