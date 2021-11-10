@@ -1,7 +1,8 @@
 {
     "endpoint": {
         "users": "http://ec2-18-188-35-185.us-east-2.compute.amazonaws.com:8080",
-        "articles": "http://e6156articles-env.eba-ejui2edk.us-east-2.elasticbeanstalk.com",
-        "comments": "http://ec2-18-188-35-185.us-east-2.compute.amazonaws.com:8081"
+        "articles": "http://localhost:5000",
+        "sections": "http://localhost:8083",
+        "comments": "http://localhost:8081"
     }
 }
