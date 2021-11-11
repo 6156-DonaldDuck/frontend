@@ -31,19 +31,21 @@
         </el-aside>
         <el-container>
             <el-header style="text-align: right">
-                <el-button @click="getGoogleLoginUrl">Login with Google</el-button>
+                <el-button @click="loginWithGoogle">Login with Google</el-button>
             </el-header>
             <el-main>
                 <router-view @loginWithGoogle="this.loginWithGoogle" v-bind:isLoggedIn="this.isLoggedIn"></router-view>
             </el-main>
-            <el-footer>Footer</el-footer>
+            <el-footer>2 Point 3 Acres</el-footer>
         </el-container>
     </el-container>
 </template>
 
 <script>
-import axios from 'axios'
-export default {
+    import axios from 'axios'
+    import configJson from '../config/config.json'
+
+    export default {
     name: 'MainLayout',
     data: function() {
         return {
@@ -71,6 +73,7 @@ export default {
             if (this.windowObjectReference === null || this.windowObjectReference.closed) {
                 /* if the pointer to the window object in memory does not exist
                  or if such pointer exists but the window was closed */
+                console.log('opening new window')
                 this.windowObjectReference = window.open('about:blank', name, strWindowFeatures);
             } else if (this.previousUrl !== url) {
                 /* if the resource to load is different,
@@ -96,7 +99,7 @@ export default {
             })
         },
         getGoogleLoginUrl() {
-            return axios.get("http://localhost:8080/api/v1/login/google/url")
+            return axios.get(configJson.endpoint.users + "/api/v1/login/google/url")
         },
         fillPopupWindowUrl(res) {
             let loginUrl = res.data;
@@ -106,7 +109,7 @@ export default {
         },
         receiveMessage: function (e) {
             if (e.data.googleLogin) {
-                let apiCallbackUrl = 'http://localhost:8080/api/v1/login/google/callback';
+                let apiCallbackUrl = configJson.endpoint.users + '/api/v1/login/google/callback';
                 axios({
                     method: 'post',
                     url: apiCallbackUrl,
@@ -118,18 +121,17 @@ export default {
             }
         },
         apiCallbackSuccess: function (res) {
-            console.log('successully logged in, token=' + res.data)
-            localStorage.setItem('access_token', res.data)
+            console.log('successfully logged in, token=' + res.data)
+            // set state in vuex
+            this.$store.commit('setIsLoggedIn', true)
             axios.interceptors.request.use(function (config) {
-                const token = res.data;
-                config.headers.Authorization =  token;
-
+                config.headers.Authorization = res.data;
                 return config;
             });
             this.isLoggedIn = true
         },
         getGoogleUserProfile: function () {
-            axios.get('http://localhost:8080/api/v1/users/google/profile')
+            axios.get(configJson.endpoint.users + '/api/v1/users/google/profile')
                 .then(this.getGoogleUserProfileSuccess)
                 .catch(function (error) {
                     console.log(error)

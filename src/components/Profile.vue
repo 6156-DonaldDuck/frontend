@@ -12,6 +12,7 @@
 </template>
 <script>
 import axios from 'axios'
+import configJson from '../config/config.json'
 export default {
     name: 'Profile',
     data: function() {
@@ -34,7 +35,7 @@ export default {
     },
     methods: {
         getGoogleUserProfile() {
-            axios.get('http://localhost:8080/api/v1/users/google/profile')
+            axios.get(configJson.endpoint.users + '/api/v1/users/google/profile')
                  .then(this.getGoogleUserProfileSuccess)
                  .catch(this.getGoogleUserProfileError)
         },
