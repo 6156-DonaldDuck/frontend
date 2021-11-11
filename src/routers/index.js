@@ -4,7 +4,6 @@ import User from '~/components/User'
 import Article from '~/components/article/Article'
 import ArticleDetail from '~/components/article/ArticleDetail'
 import ArticleEdit from '~/components/article/ArticleEdit'
-import Comment from '~/components/Comment'
 import Address from '~/components/Address'
 import Profile from '~/components/Profile'
 import GoogleLoginCallback from '~/components/GoogleLoginCallback'
@@ -29,9 +28,6 @@ const routes = [
         },{
             path: '/articles/:id',
             component: ArticleDetail
-        },{
-            path: '/comments',
-            component: Comment
         },{
             path: '/addresses',
             component: Address

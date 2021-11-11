@@ -34,6 +34,14 @@
                     width="100">
             </el-table-column>
         </el-table>
+        <el-pagination
+                layout="prev, pager, next"
+                :current-page="this.page"
+                @current-change="this.onPageChange"
+                :page-size="this.pageSize"
+                :total="this.total"
+                style="margin-top: 20px">
+        </el-pagination>
     </div>
 </template>
 <script>
@@ -44,19 +52,30 @@ export default {
     name: 'User',
     data() {
         return {
-            users: []
+            users: [],
+            page: 1,
+            pageSize: 10,
+            total: 0
         }
     },
     methods: {
+        listUsers() {
+            axios.get(configJson.endpoint.users + '/api/v1/users?page=' + this.page + '&page_size=' + this.pageSize)
+                .then(this.listUsersSuccess)
+        },
         listUsersSuccess(res) {
-            console.log("successfully retrieved comments list")
-            console.log(this.users)
-            this.users = res.data
+            this.users = res.data.users
+            this.page = res.data.page
+            this.pageSize = res.data.pageSize
+            this.total = res.data.total
+        },
+        onPageChange(page) {
+            this.page = page
+            this.listUsers()
         }
     },
     mounted() {
-        axios.get(configJson.endpoint.users + '/api/v1/users')
-            .then(this.listUsersSuccess)
+        this.listUsers()
     }
 }
 </script>

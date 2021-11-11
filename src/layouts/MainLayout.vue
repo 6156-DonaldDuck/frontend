@@ -24,7 +24,7 @@
                     </el-menu-item>
                     <el-menu-item index="/profile" v-if="this.$store.state.isLoggedIn">
                         <i class="el-icon-document"></i>
-                        <span slot="title">Google Profile</span>
+                        <span slot="title">Profile</span>
                     </el-menu-item>
                 </el-menu>
             </el-col>
@@ -32,10 +32,10 @@
         <el-container>
             <el-header style="text-align: right">
                 <el-button @click="loginWithGoogle" v-if="!this.$store.state.isLoggedIn">Login with Google</el-button>
-                <span v-else>{{ this.$store.state.email }}</span>
+                <span v-else>{{ this.email }}</span>
             </el-header>
             <el-main>
-                <router-view @loginWithGoogle="this.loginWithGoogle" v-bind:isLoggedIn="this.isLoggedIn"></router-view>
+                <router-view></router-view>
             </el-main>
             <el-footer>2 Point 3 Acres</el-footer>
         </el-container>
@@ -52,15 +52,8 @@
         return {
             windowObjectReference: null,
             previousUrl: null,
-            isLoggedIn: false,
-            userProfile: null,
-        }
-    },
-    watch: {
-        isLoggedIn: function(val) {
-            if (this.isLoggedIn) {
-                this.getGoogleUserProfile()
-            }
+            name: "",
+            email: ""
         }
     },
     methods: {
@@ -136,7 +129,7 @@
                 config.headers.Authorization = token;
                 return config;
             });
-            this.isLoggedIn = true
+            this.getGoogleUserProfile()
         },
         getGoogleUserProfile: function () {
             axios.get(configJson.endpoint.users + '/api/v1/users/google/profile')
@@ -147,11 +140,12 @@
         },
         getGoogleUserProfileSuccess: function(res) {
             console.log(res.data)
-            this.userProfile = res.data
-            this.$store.commit('setUserEmail', this.userProfile.email)
+            this.name = res.data.name
+            this.email = res.data.email
+            this.$store.commit('setUserEmail', this.email)
             this.$notify({
                 title: 'Success',
-                message: 'Hello, Google User: ' + this.userProfile.name,
+                message: 'Hello, Google User: ' + this.name,
                 type: 'success'
             });
         }

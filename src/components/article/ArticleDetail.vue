@@ -59,7 +59,7 @@
         name: "ArticleDetail",
         data: function () {
             return {
-                articleId: "",
+                articleIdStr: "",
                 article: {
                     title: "",
                     section_id: 0,
@@ -68,13 +68,13 @@
                 },
                 comments: [{
                     author_id: 1,
-                    article_id: this.articleId,
+                    article_id: this.articleIdStr,
                     content: "test1",
                     CreatedAt: new Date(),
                     UpdatedAt: new Date()
                 },{
                     author_id: 1,
-                    article_id: this.articleId,
+                    article_id: this.articleIdStr,
                     content: "test2",
                     CreatedAt: new Date(),
                     UpdatedAt: new Date()
@@ -118,7 +118,7 @@
                     },
                     data: {
                         content: this.newComment,
-                        article_id: this.articleId,
+                        article_id: parseInt(this.articleIdStr),
                         author_id: this.$store.state.userId
                     }
                 }).then(this.submitCommentSuccess)
@@ -130,6 +130,14 @@
                 console.log(res.data)
                 // reload comment list
                 this.getCommentsOfArticle()
+                // clear comment input
+                this.newComment = ''
+                // show notification
+                this.$notify({
+                    title: 'Success',
+                    message: 'Successfully submitted comment',
+                    type: 'success'
+                });
             },
             getDateString(date) {
                 if (!date) {
@@ -139,8 +147,8 @@
             }
         },
         mounted() {
-            this.articleId = this.$route.params.id
-            this.getArticleDetail(this.articleId)
+            this.articleIdStr = this.$route.params.id
+            this.getArticleDetail(this.articleIdStr)
         }
     }
 </script>

@@ -34,7 +34,7 @@
         name: "ArticleEdit",
         data: function () {
             return {
-                articleId: null,
+                articleIdStr: null,
                 isCreate: false,
                 sections: [],
                 article: {
@@ -53,7 +53,7 @@
                     })
             },
             getArticleData() {
-                axios.get(configJson.endpoint.articles + '/api/v1/articles/' + this.articleId)
+                axios.get(configJson.endpoint.articles + '/api/v1/articles/' + this.articleIdStr)
                     .then(this.getArticleDataSuccess)
                     .catch(function () {
                         console.log(error)
@@ -92,7 +92,7 @@
                             console.log(err)
                         })
                 } else {
-                    let url = configJson.endpoint.articles + '/api/v1/articles/' + this.articleId
+                    let url = configJson.endpoint.articles + '/api/v1/articles/' + this.articleIdStr
                     axios.put(url, this.article)
                         .then(this.submitSuccess)
                         .catch(function (err) {
