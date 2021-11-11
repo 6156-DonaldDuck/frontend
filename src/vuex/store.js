@@ -12,8 +12,8 @@ const store = new Vuex.Store({
         setIsLoggedIn (state, val) {
             state.isLoggedIn = val
         },
-        setUsername (state, username) {
-            state.username = username
+        setUserEmail (state, email) {
+            state.email = email
         },
         setUserId (state, userId) {
             state.userId = userId

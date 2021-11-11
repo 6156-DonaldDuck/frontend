@@ -22,7 +22,7 @@
                         <i class="el-icon-document"></i>
                         <span slot="title">Addresses</span>
                     </el-menu-item>
-                    <el-menu-item index="/profile">
+                    <el-menu-item index="/profile" v-if="this.$store.state.isLoggedIn">
                         <i class="el-icon-document"></i>
                         <span slot="title">Google Profile</span>
                     </el-menu-item>
@@ -31,7 +31,8 @@
         </el-aside>
         <el-container>
             <el-header style="text-align: right">
-                <el-button @click="loginWithGoogle">Login with Google</el-button>
+                <el-button @click="loginWithGoogle" v-if="!this.$store.state.isLoggedIn">Login with Google</el-button>
+                <span v-else>{{ this.$store.state.email }}</span>
             </el-header>
             <el-main>
                 <router-view @loginWithGoogle="this.loginWithGoogle" v-bind:isLoggedIn="this.isLoggedIn"></router-view>
@@ -121,11 +122,18 @@
             }
         },
         apiCallbackSuccess: function (res) {
-            console.log('successfully logged in, token=' + res.data)
+            console.log('successfully logged in, data=')
+            console.log(res.data)
+            let token = res.data.access_token
+            let userId = res.data.user_id
+
             // set state in vuex
             this.$store.commit('setIsLoggedIn', true)
+            this.$store.commit('setUserId', userId)
+
+            // add authorization header to all following axios requests
             axios.interceptors.request.use(function (config) {
-                config.headers.Authorization = res.data;
+                config.headers.Authorization = token;
                 return config;
             });
             this.isLoggedIn = true
@@ -140,6 +148,7 @@
         getGoogleUserProfileSuccess: function(res) {
             console.log(res.data)
             this.userProfile = res.data
+            this.$store.commit('setUserEmail', this.userProfile.email)
             this.$notify({
                 title: 'Success',
                 message: 'Hello, Google User: ' + this.userProfile.name,
