@@ -48,7 +48,7 @@
         },
         methods: {
             submitUserLogin() {
-                let loginUrl = configJson.endpoint + '/api/v1/authentication/login?' + 'email=' + this.loginForm.email + '&password=' + this.loginForm.password
+                let loginUrl = configJson.endpoint.users + '/api/v1/authentication/login?' + 'email=' + this.loginForm.email + '&password=' + this.loginForm.password
                 axios({
                     method: 'post',
                     url: loginUrl,
