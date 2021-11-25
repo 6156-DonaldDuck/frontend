@@ -7,10 +7,11 @@
         </div>
         <div style="text-align: left">
             <el-table :data="userList">
-                <el-table-column prop="id" label="ID"></el-table-column>
-                <el-table-column prop="username" label="User Name"></el-table-column>
+                <el-table-column prop="ID" label="ID"></el-table-column>
+                <el-table-column prop="first_name" label="First Name"></el-table-column>
+                <el-table-column prop="last_name" label="Last Name"></el-table-column>
                 <el-table-column  prop="email" label="Email"></el-table-column>
-                <el-table-column  prop="created_at" label="Create At"></el-table-column>
+                <el-table-column  prop="CreatedAt" label="Create At"></el-table-column>
                 <el-table-column label="Operation" width="200px">
                     <template slot-scope="scope">
                         <el-row>
@@ -41,9 +42,8 @@
     methods: {
 
       listUsersSuccess(res) {
-            console.log("successfully retrieved users list")
-
-            this.userList = res.data
+            console.log("successfully retrieved users list!")
+            this.userList = res.data.users
       },
       deleteUsersSuccess() {
             console.log("successfully delete users list")

@@ -5,7 +5,8 @@ import User from '~/components/User'
 import Article from '~/components/article/Article'
 import ArticleDetail from '~/components/article/ArticleDetail'
 import ArticleEdit from '~/components/article/ArticleEdit'
-
+import Login from '~/components/Login'
+import Register from '~/components/Register'
 import AdminLogin from '~/components/Admin/AdminLogin'
 import AdminArticles from '~/components/Admin/AdminArticles'
 import AdminComments from '~/components/Admin/AdminComments'
@@ -23,8 +24,17 @@ const routes = [
     },
     {
         path: '/',
+        redirect: '/users/login',
         component: MainLayout,
         children: [{
+            path: '/users/login',
+            name: 'Login',
+            component: Login
+        },{
+            path: '/users/register',
+            name: 'Register',
+            component: Register
+        },{
             path: '/users',
             component: User
         },{
@@ -41,6 +51,7 @@ const routes = [
             component: Address
         },{
             path: '/profile',
+            name: 'Profile',
             component: Profile
         }]
     },
