@@ -79,6 +79,7 @@
             receiveMessage: function (e) {
                 if (e.data.googleLogin) {
                     let apiCallbackUrl = configJson.endpoint.users + '/api/v1/login/google/callback';
+                    let _this = this;
                     axios({
                         method: 'post',
                         url: apiCallbackUrl,
@@ -87,6 +88,14 @@
                             code: e.data.code
                         }
                     }).then(this.apiCallbackSuccess)
+                    .catch(function (error) {
+                        console.log(error)
+                        _this.$notify({
+                            title: 'Error',
+                            message: error.message,
+                            type: 'error'
+                        })
+                    })
                 }
             },
             apiCallbackSuccess: function (res) {
@@ -127,7 +136,7 @@
             },
             routeTo(name) {
                 this.$router.push({ name });
-            },
+            }
         }
     }
 </script>
