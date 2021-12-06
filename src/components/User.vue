@@ -28,11 +28,6 @@
                     label="e-mail"
                     width="100">
             </el-table-column>
-            <el-table-column
-                    prop="address_id"
-                    label="Address"
-                    width="100">
-            </el-table-column>
         </el-table>
         <el-pagination
                 layout="prev, pager, next"

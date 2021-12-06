@@ -4,9 +4,17 @@
             <span>User Profile</span>
         </div>
         <el-descriptions title="My Profile" class="el-desc">
-            <el-descriptions-item label="Name"> {{ this.profile.first_name + ' ' + this.profile.last_name }} </el-descriptions-item>
-            <el-descriptions-item label="Email"> {{ this.profile.email }} </el-descriptions-item>
+                <el-descriptions-item label="Name"> {{ this.profile.first_name + ' ' + this.profile.last_name }} </el-descriptions-item>
+                <el-descriptions-item label="Email"> {{ this.profile.email }} </el-descriptions-item>
         </el-descriptions>
+        <el-descriptions title="Address" class="el-desc">
+                <el-descriptions-item label="Country Code"> {{ this.address.country_code}} </el-descriptions-item>
+                <el-descriptions-item label="Region"> {{ this.address.region }} </el-descriptions-item>
+                <el-descriptions-item label="City"> {{ this.address.city }} </el-descriptions-item>
+                <el-descriptions-item label="Street Name 1"> {{ this.address.street_name_1 }} </el-descriptions-item>
+                <el-descriptions-item label="Street Name 2"> {{ this.address.street_name_2 }} </el-descriptions-item>
+        </el-descriptions>
+        
         <el-divider></el-divider>
         <h3>My Articles</h3>
         <el-table :data="articles" style="width: 100%;">
@@ -47,6 +55,13 @@
                     last_name: "test2",
                     email: "email@columbia.edu",
                 },
+                address: {
+                    country_code: '',
+                    region: '',
+                    city: '',
+                    street_name_1: '',
+                    street_name_2: ''
+                },
                 articles: [{
                     id: 2,
                     title: "test-1",
@@ -61,7 +76,7 @@
         methods: {
             getUserProfile() {
                 let userId = this.$store.state.userId
-                axios.get(configJson.endpoint.users + '/api/v1/users/' + userId)
+                axios.get(configJson.endpoint.users + '/api/v1/compositions/' + userId)
                     .then(this.getUserProfileSuccess)
                     .catch(function (err) {
                         console.log(err)
@@ -69,7 +84,9 @@
             },
             getUserProfileSuccess(res) {
                 console.log(res)
-                this.profile = res.data
+                this.profile = res.data.user
+                this.address = res.data.address
+                console.log(this.address)
                 this.listArticlesOfUser()
             },
             listArticlesOfUser() {
