@@ -7,14 +7,16 @@
                 <el-descriptions-item label="Name"> {{ this.profile.first_name + ' ' + this.profile.last_name }} </el-descriptions-item>
                 <el-descriptions-item label="Email"> {{ this.profile.email }} </el-descriptions-item>
         </el-descriptions>
-        <el-descriptions title="Address" class="el-desc">
+        <el-descriptions v-if="!addressIsNull" title="Address" class="el-desc">
                 <el-descriptions-item label="Country Code"> {{ this.address.country_code}} </el-descriptions-item>
                 <el-descriptions-item label="Region"> {{ this.address.region }} </el-descriptions-item>
                 <el-descriptions-item label="City"> {{ this.address.city }} </el-descriptions-item>
+                <el-descriptions-item label="Postal Code"> {{ this.address.postal_code }} </el-descriptions-item>
                 <el-descriptions-item label="Street Name 1"> {{ this.address.street_name_1 }} </el-descriptions-item>
                 <el-descriptions-item label="Street Name 2"> {{ this.address.street_name_2 }} </el-descriptions-item>
         </el-descriptions>
-        
+        <el-button v-if="addressIsNull" class="button" type="primary" plain size="mini" @click="this.openCreateDialog" >Add New Address</el-button>
+        <el-button v-if="!addressIsNull" class="button" type="primary" plain size="mini" @click="this.openUpdateDialog" >Update Address</el-button>
         <el-divider></el-divider>
         <h3>My Articles</h3>
         <el-table :data="articles" style="width: 100%;">
@@ -41,7 +43,35 @@
                 style="margin-top: 20px">
         </el-pagination>
         <el-button type="success" plain @click="this.clickNewArticle" style="margin-top: 18px">New Article</el-button>
+        <el-dialog :title="formTitle" :visible.sync="dialogVisible" width="40%">
+            <el-form :model="address" ref="address" label-width="120px">
+                <el-form-item label="Country Code" prop="country_code">
+                    <el-input v-model="address.country_code"></el-input>
+                </el-form-item>
+                <el-form-item label="Region" prop="region">
+                    <el-input v-model="address.region"></el-input>
+                </el-form-item>
+                <el-form-item label="City" prop="city">
+                    <el-input v-model="address.city"></el-input>
+                </el-form-item>
+                <el-form-item label="Postal Code" prop="postal_code">
+                    <el-input v-model="address.postal_code"></el-input>
+                </el-form-item>
+                <el-form-item label="Street Name 1" prop="street_name_1">
+                    <el-input v-model="address.street_name_1"></el-input>
+                </el-form-item>
+                <el-form-item label="Street Name 2" prop="street_name_2">
+                    <el-input v-model="address.street_name_2"></el-input>
+                </el-form-item>
+            </el-form>
+            <div>
+                <el-button v-if="addressIsNull" type="primary" @click="onCreateSubmit('address')">{{ this.formButton }}</el-button>
+                <el-button v-if="!addressIsNull" type="primary" @click="onUpdateSubmit('address')">{{ this.formButton }}</el-button>
+                <el-button @click="onCancel()">Cancel</el-button>
+            </div>
+        </el-dialog>
     </el-card>
+    
 </template>
 <script>
     import axios from 'axios'
@@ -55,13 +85,20 @@
                     last_name: "test2",
                     email: "email@columbia.edu",
                 },
+                formTitle: '',
+                formButton: '',
+                addressIsNull: true,
                 address: {
+                    ID: '',
                     country_code: '',
+                    postal_code: '',
                     region: '',
                     city: '',
                     street_name_1: '',
-                    street_name_2: ''
+                    street_name_2: '',
+                    user_id: '',
                 },
+                dialogVisible: false,
                 articles: [{
                     id: 2,
                     title: "test-1",
@@ -76,7 +113,7 @@
         methods: {
             getUserProfile() {
                 let userId = this.$store.state.userId
-                axios.get(configJson.endpoint.users + '/api/v1/compositions/' + userId)
+                axios.get(configJson.endpoint.compositions + '/api/v1/compositions/' + userId)
                     .then(this.getUserProfileSuccess)
                     .catch(function (err) {
                         console.log(err)
@@ -86,6 +123,9 @@
                 console.log(res)
                 this.profile = res.data.user
                 this.address = res.data.address
+                if (this.address.ID != 0) {
+                    this.addressIsNull = false
+                }
                 console.log(this.address)
                 this.listArticlesOfUser()
             },
@@ -145,7 +185,71 @@
             onPageChange(page) {
                 this.page = page
                 this.listArticlesOfSection(this.activeSectionId)
-            }
+            },
+            openCreateDialog(){
+                this.formTitle = 'Create Address'
+                this.formButton = "Create"
+                this.dialogVisible = true
+            },
+            openUpdateDialog(){
+                this.formTitle = 'Update Address'
+                this.formButton = 'Update'
+                this.dialogVisible = true
+            },
+            onCancel() {     
+                this.dialogVisible = false;
+                this.$refs['address'].resetFields();
+            },
+            onUpdateSubmit() {
+                const updateUrl = configJson.endpoint.addresses + '/api/v1/addresses/' + this.address.ID
+                axios({
+                    method: 'put',
+                    url: updateUrl,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: this.address
+                }).then(this.updateSuccess)
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+                this.dialogVisible = false;
+            },
+            updateSuccess(res) {
+                console.log("successfully update the address")
+                console.log(res.data)
+                this.$notify({
+                    title: 'Success',
+                    type: 'success',
+                    message: 'Successfully Updated'
+                });
+            },
+            onCreateSubmit() {
+                const updateUrl = configJson.endpoint.addresses + '/api/v1/addresses'
+                this.address.user_id = this.$store.state.userId
+                axios({
+                    method: 'post',
+                    url: updateUrl,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: this.address
+                }).then(this.createSuccess)
+                    .catch(function (error) {
+                        console.log(error)
+                    })
+                this.dialogVisible = false;
+            },
+            createSuccess(res) {
+                console.log("successfully create the address")
+                console.log(res.data)
+                this.$notify({
+                    title: 'Success',
+                    type: 'success',
+                    message: 'Successfully Add New Address'
+                });
+                this.addressIsNull = false
+            },
         },
         mounted: function () {
             this.getUserProfile()
@@ -156,6 +260,11 @@
     .box-card {
         width: 80%;
         margin: auto;
+    }
+    .button { 
+        display: flex;
+        align-items: left;
+        justify-content: space-between;
     }
 
     .el-desc {

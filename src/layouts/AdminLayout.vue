@@ -16,19 +16,19 @@
                                 default-active="2"
                                 class="el-menu-vertical-demo"
                                 :router="true">
-                            <el-menu-item index="/admin/articles">
+                            <el-menu-item index="/admin/articles" v-if="this.$store.state.isLoggedIn">
                                 <i class="el-icon-s-order"></i>
                                 <span slot="title">Articles</span>
                             </el-menu-item>
-                            <el-menu-item index="/admin/sections">
+                            <el-menu-item index="/admin/sections" v-if="this.$store.state.isLoggedIn">
                                 <i class="el-icon-s-grid"></i>
                                 <span slot="title">Sections</span>
                             </el-menu-item>
-                            <el-menu-item index="/admin/users">
+                            <el-menu-item index="/admin/users" v-if="this.$store.state.isLoggedIn">
                                 <i class="el-icon-user-solid"></i>
                                 <span slot="title">Users</span>
                             </el-menu-item>
-                            <el-menu-item index="/admin/comments">
+                            <el-menu-item index="/admin/comments" v-if="this.$store.state.isLoggedIn">
                                 <i class="el-icon-s-comment"></i>
                                 <span slot="title">Comments</span>
                             </el-menu-item>

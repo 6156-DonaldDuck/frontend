@@ -1,10 +1,5 @@
 <template>
     <el-card shadow="never">
-        <div>
-            <el-input placeholder="Filter by ID" v-model="searchkey" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search" @click="searchName()"></el-button>
-            </el-input>
-        </div>
         <div style="text-align: left">
             <el-table :data="userList">
                 <el-table-column prop="ID" label="ID"></el-table-column>
@@ -57,7 +52,7 @@
           type: 'warning'
         }).then(() => {
           this.userList.splice(index,1);
-          axios.delete(configJson.endpoint.users + '/api/v1/users/'+row.id)
+          axios.delete(configJson.endpoint.users + '/api/v1/users/'+row.ID)
             .then(this.deleteUserSuccess)
           console.log('success')
           this.$message({

@@ -10,18 +10,6 @@
                         <i class="el-icon-menu"></i>
                         <span slot="title">Articles</span>
                     </el-menu-item>
-                    <el-menu-item index="/users">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">Users</span>
-                    </el-menu-item>
-                    <el-menu-item index="/comments">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">Comments</span>
-                    </el-menu-item>
-                    <el-menu-item index="/addresses">
-                        <i class="el-icon-document"></i>
-                        <span slot="title">Addresses</span>
-                    </el-menu-item>
                     <el-menu-item index="/profile" v-if="this.$store.state.isLoggedIn">
                         <i class="el-icon-document"></i>
                         <span slot="title">Profile</span>

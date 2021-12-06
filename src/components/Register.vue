@@ -100,7 +100,7 @@
             submitUserRegister(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        let registerUrl = configJson.endpoint.users + '/api/v1/compositions'
+                        let registerUrl = configJson.endpoint.compositions + '/api/v1/compositions'
                         axios({
                             method: 'post',
                             url: registerUrl,
