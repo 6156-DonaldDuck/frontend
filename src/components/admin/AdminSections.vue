@@ -13,9 +13,9 @@
         </el-row>
           <div style="text-align: left">
               <el-table :data="sectionList">
-                  <el-table-column prop="id" label="ID"></el-table-column>
+                  <el-table-column prop="ID" label="ID"></el-table-column>
                   <el-table-column prop="title" label="Title"></el-table-column>
-                  <el-table-column  prop="created_at" label="Create At"></el-table-column>
+                  <el-table-column  prop="CreatedAt" label="Create At"></el-table-column>
                   <el-table-column label="Operation" width="200px">
                       <template slot-scope="scope">
                           <el-row>
@@ -82,7 +82,7 @@
           type: 'warning'
         }).then(() => {
           this.sectionList.splice(index,1);
-          axios.delete(configJson.endpoint.sections + '/api/v1/sections/'+row.id)
+          axios.delete(configJson.endpoint.sections + '/api/v1/sections/'+row.ID)
             .then(this.deleteSectionsSuccess)
           console.log('success')
           this.$message({

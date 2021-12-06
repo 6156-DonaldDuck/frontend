@@ -2,6 +2,7 @@
     "endpoint": {
         "users": "http://localhost:8080",
         "addresses": "http://localhost:8085",
+        "compositions": "http://localhost:8086",
         "articles": "http://localhost:5000",
         "sections": "http://localhost:8083",
         "comments": "http://localhost:8081"

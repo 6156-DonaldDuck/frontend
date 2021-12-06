@@ -1,16 +1,11 @@
 <template>
     <el-card shadow="never">
-        <div>
-            <el-input placeholder="Filter by ID" v-model="searchkey" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search" @click="searchName()"></el-button>
-            </el-input>
-        </div>
         <div style="text-align: left">
             <el-table :data="articleList">
-                <el-table-column prop="id" label="ID"></el-table-column>
+                <el-table-column prop="ID" label="ID"></el-table-column>
                 <el-table-column prop="title" label="Title"></el-table-column>
                 <el-table-column  prop="author_id" label="Author ID"></el-table-column>
-                <el-table-column  prop="created_at" label="Create At"></el-table-column>
+                <el-table-column  prop="CreatedAt" label="Create At"></el-table-column>
                 <el-table-column label="Operation" width="200px">
                     <template slot-scope="scope">
                         <el-row>
@@ -42,6 +37,7 @@
 
       listArticlesSuccess(res) {
             console.log("successfully retrieved articles list")
+            console.log(res.data)
             this.articleList = res.data.articles
       },
       deleteArticlesSuccess() {
@@ -56,7 +52,7 @@
           type: 'warning'
         }).then(() => {
           this.articleList.splice(index,1);
-          axios.delete(configJson.endpoint.articles + '/api/v1/articles/'+row.id)
+          axios.delete(configJson.endpoint.articles + '/api/v1/articles/'+row.ID)
             .then(this.deleteArticlesSuccess)
           console.log('success')
           this.$message({

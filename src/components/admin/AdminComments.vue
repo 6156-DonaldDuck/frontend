@@ -1,16 +1,11 @@
 <template>
     <el-card shadow="never">
-        <div>
-            <el-input placeholder="Filter by ID" v-model="searchkey" class="input-with-select">
-                <el-button slot="append" icon="el-icon-search" @click="searchName()"></el-button>
-            </el-input>
-        </div>
         <div style="text-align: left">
             <el-table :data="commentList">
-                <el-table-column prop="id" label="ID"></el-table-column>
+                <el-table-column prop="ID" label="ID"></el-table-column>
                 <el-table-column prop="author_id" label="Author ID"></el-table-column>
                 <el-table-column  prop="article_id" label="Article ID"></el-table-column>
-                <el-table-column  prop="created_at" label="Create At"></el-table-column>
+                <el-table-column  prop="CreatedAt" label="Create At"></el-table-column>
                 <el-table-column label="Operation" width="200px">
                     <template slot-scope="scope">
                         <el-row>
@@ -57,7 +52,7 @@
           type: 'warning'
         }).then(() => {
           this.commentList.splice(index,1);
-          axios.delete(configJson.endpoint.comments + '/api/v1/comments/'+row.id)
+          axios.delete(configJson.endpoint.comments + '/api/v1/comments/'+row.ID)
             .then(this.deleteCommentSuccess)
           console.log('success')
           this.$message({
