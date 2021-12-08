@@ -1,10 +1,10 @@
 {
     "endpoint": {
-        "users": "http://localhost:8080",
-        "addresses": "http://localhost:8085",
-        "compositions": "http://localhost:8086",
-        "articles": "http://localhost:5000",
-        "sections": "http://localhost:8083",
-        "comments": "http://localhost:8081"
+        "users": "https://k8yko0hned.execute-api.us-east-2.amazonaws.com",
+        "addresses": "https://k8yko0hned.execute-api.us-east-2.amazonaws.com",
+        "compositions": "https://k8yko0hned.execute-api.us-east-2.amazonaws.com",
+        "articles": "https://k8yko0hned.execute-api.us-east-2.amazonaws.com",
+        "sections": "https://k8yko0hned.execute-api.us-east-2.amazonaws.com",
+        "comments": "https://k8yko0hned.execute-api.us-east-2.amazonaws.com"
     }
 }
