@@ -15,7 +15,12 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Content">
-                    <v-md-editor v-model="article.content" height="400px" style="text-align: left"></v-md-editor>
+                    <!-- <v-md-editor v-model="article.content" height="400px" style="text-align: left"></v-md-editor> -->
+                    <mavon-editor
+                        :editable="false"
+                        v-model="article.content"
+                        placeholder="Enter your article content here"
+                        class="mavon-editor"></mavon-editor>
                 </el-form-item>
             </el-form>
         </div>
@@ -118,7 +123,7 @@
                 this.isCreate = true
             } else { // edit an existing article
                 // get data for the article
-                this.articleId = articleId
+                this.articleIdStr = articleId
                 this.getArticleData()
             }
         }
@@ -129,5 +134,8 @@
     .box-card {
         margin: auto;
         width: 80%;
+    }
+    .mavon-editor {
+        height: 400px;
     }
 </style>

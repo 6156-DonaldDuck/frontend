@@ -28,9 +28,9 @@
                     label="Operation"
                     width="150">
                 <template slot-scope="scope">
-                    <el-button @click="clickView(scope.row.id)" type="text" size="small">View</el-button>
-                    <el-button @click="clickEdit(scope.row.id)" type="text" size="small">Edit</el-button>
-                    <el-button @click="clickDelete(scope.row.id)" type="text" size="small">Delete</el-button>
+                    <el-button @click="clickView(scope.row.ID)" type="text" size="small">View</el-button>
+                    <el-button @click="clickEdit(scope.row.ID)" type="text" size="small">Edit</el-button>
+                    <el-button @click="clickDelete(scope.row.ID)" type="text" size="small">Delete</el-button>
                 </template>
             </el-table-column>
         </el-table>

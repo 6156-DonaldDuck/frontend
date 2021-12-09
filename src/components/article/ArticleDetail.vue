@@ -9,7 +9,16 @@
             </div>
         </div>
         <div>
-            <v-md-preview :text="article.content" style="text-align: left"></v-md-preview>
+            <mavon-editor
+                :subfield="false"
+                :defaultOpen="'preview'"
+                :toolbarsFlag="false"
+                :scrollStyle="true"
+                :editable="false"
+                :ishljs = "true"
+                :value="article.content"
+                placeholder="Enter your article content here"
+                class="mavon-editor"></mavon-editor>
         </div>
         <el-divider></el-divider>
         <div class="section">

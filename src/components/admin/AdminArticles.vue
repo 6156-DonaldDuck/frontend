@@ -34,7 +34,6 @@
             .then(this.listArticlesSuccess)
     },
     methods: {
-
       listArticlesSuccess(res) {
             console.log("successfully retrieved articles list")
             console.log(res.data)

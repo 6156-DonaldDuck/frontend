@@ -23,7 +23,8 @@ module.exports = (options = {}) => ({
       {
         test: /\.js$/,
         use: ['babel-loader'],
-        exclude: /node_modules/
+        // exclude: /node_modules/
+        include: [resolve('src'), resolve('test'), resolve('node_modules/resize-detector')]
       },
       {
         test: /\.css$/,
@@ -46,7 +47,8 @@ module.exports = (options = {}) => ({
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html'
-    })
+    }),
+    
   ],
   resolve: {
     alias: {
