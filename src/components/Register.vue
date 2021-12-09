@@ -141,7 +141,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
     .register {
         height: calc(100vh - 60px);
