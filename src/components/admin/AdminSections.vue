@@ -104,7 +104,8 @@
       createSuccess(res) {
         console.log("successfully create a new section")
         console.log(res.data)
-        this.sectionList.push(res.data.section)
+        axios.get(configJson.endpoint.sections + '/api/v1/sections')
+            .then(this.listSectionsSuccess)
       },
       onSubmit(formName) {
         const createUrl = configJson.endpoint.sections + '/api/v1/sections'
