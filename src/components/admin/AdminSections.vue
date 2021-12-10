@@ -2,13 +2,9 @@
   <div>
       <el-card shadow="never">
         <el-row :gutter="20">
-          <el-col :span="22">
-            <el-input placeholder="Filter by ID" style="flex: 9" v-model="searchkey" class="input-with-select">
-                  <el-button slot="append" icon="el-icon-search" @click="searchName()"></el-button>
-              </el-input>
-            </el-col>
+
           <el-col :span="2">
-            <el-button type="primary" id="newRoom" class="button" @click="applyRoom()">Create</el-button>
+            <el-button type="primary" id="newRoom" class="button" @click="applyRoom()" plain>Create New Section</el-button>
           </el-col>
         </el-row>
           <div style="text-align: left">
